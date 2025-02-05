@@ -1260,6 +1260,118 @@ if (cluster.isMaster) {
 
 This document provides an overview of key concepts in Node.js related to asynchronous programming, package management, web server setup, and scaling strategies.
 
+# Regular Expressions (Regex) in the Linux Terminal
+
+Regular expressions (regex) are powerful tools for pattern matching and text processing in the Linux terminal. They are widely used with commands like `grep`, `sed`, `awk`, and others.
+
+## 📌 Basics of Regular Expressions
+
+A **regular expression** is a sequence of characters that define a search pattern. In Linux, regex is commonly used for:
+
+- Searching for specific text in files (`grep`)
+- Modifying text (`sed`)
+- Text processing (`awk`)
+
+## 🎯 Types of Regular Expressions
+
+1. **Basic Regular Expressions (BRE)** – Used by `grep` by default.
+2. **Extended Regular Expressions (ERE)** – Used by `grep -E`, `sed -E`, and `awk`.
+
+---
+
+# 🔍 `grep` vs. `grep -E`
+
+### `grep` (Basic Regular Expressions - BRE)
+- **Uses basic regex syntax**.
+- Some special characters need escaping (`\`).
+
+### `grep -E` (Extended Regular Expressions - ERE)
+- **Supports extended syntax**.
+- No need to escape certain meta-characters.
+
+#### 🔹 Example:
+
+```bash
+echo "apple banana cherry" | grep "apple\|banana"
+# No match, because | needs escaping in BRE
+
+echo "apple banana cherry" | grep -E "apple|banana"
+# Matches "apple" and "banana"
+```
+
+---
+
+# 🛠️ Key Regex Components
+
+## 1️⃣ **Literals and Meta-Characters**
+| Symbol | Description | Example |
+|---------|------------|---------|
+| `.` | Any single character | `c.t` → Matches `cat`, `cot`, `cut` |
+| `*` | Zero or more of the preceding character | `a*` → Matches `aaa`, `a`, or nothing |
+| `+` | One or more of the preceding character (**ERE only**) | `ba+` → Matches `ba`, `baa`, `baaa` |
+| `?` | Zero or one occurrence (**ERE only**) | `colou?r` → Matches `color` or `colour` |
+| `|` | OR operator (**ERE only**) | `apple|banana` matches either |
+| `^` | Anchors match at the start of the line | `^hello` → Matches lines starting with `hello` |
+| `$` | Anchors match at the end of the line | `world$` → Matches lines ending with `world` |
+
+## 2️⃣ **Character Classes**
+| Expression | Description | Example |
+|------------|------------|---------|
+| `[abc]` | Any one of `a`, `b`, or `c` | `gr[ae]y` → Matches `gray` or `grey` |
+| `[^abc]` | Any character **except** `a`, `b`, or `c` | `[^0-9]` → Matches non-digit characters |
+| `[0-9]` | Any digit (same as `\d` in some tools) | `[A-Z]` → Matches uppercase letters |
+| `[a-zA-Z0-9]` | Any alphanumeric character | Matches `abc123XYZ` |
+
+## 3️⃣ **Predefined Character Classes**
+| Pattern | Meaning | Example |
+|---------|---------|---------|
+| `\d` | Any digit (0-9) (**ERE only**) | `\d+` → Matches `123`, `42` |
+| `\w` | Word character (alphanumeric + `_`) | `\w+` → Matches `hello_42` |
+| `\s` | Any whitespace (space, tab, newline) | `\s+` → Matches spaces |
+
+---
+
+# 🔥 Advanced Regex Examples
+
+### 1️⃣ **Find all email addresses**
+```bash
+grep -E "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" file.txt
+```
+**Explanation**: This regex looks for patterns matching an email format: a combination of letters, numbers, and special characters (`_ . % + -`) before `@`, followed by a domain and a valid TLD (`.com`, `.org`, etc.).
+
+### 2️⃣ **Extract valid IPv4 addresses**
+```bash
+grep -E "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" file.txt
+```
+**Explanation**: This pattern matches four groups of numbers (0-255) separated by dots (`.`), ensuring valid IPv4 format.
+
+### 3️⃣ **Find lines containing numbers at the beginning**
+```bash
+grep -E "^[0-9]+" file.txt
+```
+**Explanation**: The `^` ensures the match starts at the beginning of the line, followed by one or more digits.
+
+### 4️⃣ **Find lines ending with a question mark**
+```bash
+grep -E "\?$" file.txt
+```
+**Explanation**: The `\?` matches a literal question mark, and `$` ensures it appears at the end of the line.
+
+### 5️⃣ **Find words that repeat twice in a row**
+```bash
+grep -E "\b([a-zA-Z]+) \1\b" file.txt
+```
+**Explanation**: This captures a word (`([a-zA-Z]+)`) and ensures the same word appears again (`\1`). The `\b` ensures full word matches (e.g., `hello hello` but not `helloohello`).
+
+---
+
+## 🚀 Summary
+- **`grep`** → Uses basic regex (BRE), requiring extra escaping.
+- **`grep -E`** → Uses extended regex (ERE), simplifying complex patterns.
+- **Use metacharacters (`. * + ? ^ $ [] {}`) to construct patterns.**
+- **Regex is powerful for text search, validation, and transformation.**
+
+---
 
 
 
